@@ -29,7 +29,7 @@ export default function ProductPage() {
 
         <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_0.85fr] lg:items-start">
           <img
-          ref={imageRef}
+          
             alt={product.name}
             className="aspect-[4/5] w-full rounded-lg object-cover shadow-soft"
             src={product.image}
@@ -53,7 +53,9 @@ export default function ProductPage() {
             </ul>
 
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <Button onClick={handleAddToCart}>
+              <Button 
+              ref={imageRef}
+              onClick={handleAddToCart}>
                 <ShoppingBag size={17} />
                 Agregar
               </Button>

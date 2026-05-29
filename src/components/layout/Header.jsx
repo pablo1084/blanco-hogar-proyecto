@@ -44,6 +44,7 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <button
+          id="cart-button"
             aria-label="Abrir carrito"
             className="focus-ring relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-cocoa/15 bg-white/35 text-cocoa transition hover:border-cocoa/30 hover:bg-white"
             onClick={() => setCartOpen(true)}

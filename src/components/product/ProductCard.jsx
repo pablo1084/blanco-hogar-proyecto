@@ -1,16 +1,25 @@
 import { ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 import { useCart } from "../../context/CartContext.jsx";
 import { formatPrice } from "../../data/products.js";
+import { flyToCart } from "../animations/FlyToCart.jsx";
 
 export default function ProductCard({ product }) {
+  const imageRef = useRef(null);
   const { addItem } = useCart();
+
+  const handleAddToCart = async () => {
+  await flyToCart(imageRef.current);
+  addItem(product);
+};
 
   return (
     <article className="group overflow-hidden rounded-lg bg-white shadow-soft">
       <Link className="block" to={`/producto/${product.slug}`}>
         <div className="aspect-[4/5] overflow-hidden bg-linen">
           <img
+          ref={imageRef}
             alt={product.name}
             className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
             loading="lazy"
@@ -34,7 +43,7 @@ export default function ProductCard({ product }) {
           <button
             aria-label={`Agregar ${product.name} al carrito`}
             className="focus-ring inline-flex h-11 w-11 items-center justify-center rounded-full bg-linen text-cocoa transition hover:bg-clay hover:text-white"
-            onClick={() => addItem(product)}
+            onClick={handleAddToCart}
             type="button"
           >
             <ShoppingBag size={18} />

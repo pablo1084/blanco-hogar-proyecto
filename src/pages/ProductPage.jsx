@@ -1,15 +1,23 @@
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { useRef } from "react";
 import Button from "../components/common/Button.jsx";
 import ProductCard from "../components/product/ProductCard.jsx";
 import { useCart } from "../context/CartContext.jsx";
 import { formatPrice, products } from "../data/products.js";
+import { flyToCart } from "../components/animations/FlyToCart.jsx";
 
 export default function ProductPage() {
+  const imageRef = useRef(null);
   const { slug } = useParams();
   const { addItem } = useCart();
   const product = products.find((item) => item.slug === slug) ?? products[0];
   const related = products.filter((item) => item.id !== product.id).slice(0, 3);
+
+  const handleAddToCart = async () => {
+    await flyToCart(imageRef.current);
+    addItem(product);
+  };
 
   return (
     <section className="bg-milk px-5 pb-20 pt-32 sm:px-8">
@@ -21,6 +29,7 @@ export default function ProductPage() {
 
         <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_0.85fr] lg:items-start">
           <img
+          ref={imageRef}
             alt={product.name}
             className="aspect-[4/5] w-full rounded-lg object-cover shadow-soft"
             src={product.image}
@@ -44,7 +53,7 @@ export default function ProductPage() {
             </ul>
 
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <Button onClick={() => addItem(product)}>
+              <Button onClick={handleAddToCart}>
                 <ShoppingBag size={17} />
                 Agregar
               </Button>
